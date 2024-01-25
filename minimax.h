@@ -1,0 +1,9 @@
+//
+// Created by Anja Klosterhuber on 22.01.24.
+//
+
+#ifndef AGKIPROJEKTSCHACH_MINIMAX_H
+#define AGKIPROJEKTSCHACH_MINIMAX_H
+
+#endif //AGKIPROJEKTSCHACH_MINIMAX_H
+
