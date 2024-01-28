@@ -33,7 +33,7 @@ void initialisieren(BRETT schachbrett) {
 typedef void zuege_der_figur(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
 zuege_der_figur* figuren_regeln[6] = {
         /*Bauerzug,*/
-        &Laeuferzug, /*&Springerzug, &Turmzug, &Damezug, &Konigzug*/
+        &laeuferzuege, /*&Springerzug, &Turmzug, &Damezug, &Konigzug*/
 };
 
 LIST* schach_nachfolgezustaende(int (*schachbrett)[GROESSE], int player) {
@@ -100,8 +100,9 @@ void Zuege(BRETT schachbrett, int x, int y, int dx, int dy, int player, LIST* fo
 
 }
 
-void Laeuferzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) {
+void laeuferzuege(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) {
     assert(player == WHITE || player == BLACK);
+    assert(schachbrett[y][x] == LAEUFER * player && "Kein Laeufer auf der angegebenen Position.");
     Zuege(schachbrett, x, y, 1, 1, player, folgezustaende);  // (x+i, y+i)
     Zuege(schachbrett, x, y, 1, -1, player, folgezustaende); // (x+i, y-i)
     Zuege(schachbrett, x, y, -1, 1, player, folgezustaende); // (x-i, y+i)
@@ -116,7 +117,7 @@ void Turmzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) 
 }
 
 void Damezug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) {
-    Laeuferzug(schachbrett,  x,  y, player, folgezustaende);
+    laeuferzuege(schachbrett,  x,  y, player, folgezustaende);
     Turmzug( schachbrett,  x,  y, player, folgezustaende);
 }
 

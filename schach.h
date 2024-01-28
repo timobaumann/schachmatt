@@ -35,13 +35,14 @@ int Laufer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int Turm (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int Springer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
  */
-void Laeuferzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
+/** findet alle Nachfolgezustaende des Spielbretts vom Laeufer auf x/y des Spielers player ausgehend */
+void laeuferzuege(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
 
 static BRETT triviales_brett = {
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, LAEUFER, 0, 0, 0, 0},
+        {0, 0, 0, 0, LAEUFER, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
