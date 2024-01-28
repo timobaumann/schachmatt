@@ -23,6 +23,8 @@
 
 typedef int BRETT[GROESSE][GROESSE];
 
+/** Funktionen mit denen das Spielbrett gehandhabt wird (unabhängig von Schach-Regeln) */
+
 void initialisieren(BRETT);
 BRETT* brett_cpy(BRETT* in);
 int brett_cmp(void* a, void* b);
@@ -30,17 +32,24 @@ bool brett_eql(void* a, void* b);
 
 void print_brett(void* schachbrett_pointer);
 
-/*int BauerW (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
-int BauerS (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
-int Laufer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
-int Turm (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
-int Springer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
- */
-/** findet alle Nachfolgezustaende des Spielbretts vom Laeufer auf x/y des Spielers player ausgehend */
-void laeuferzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende);
-// TODO: hier weitere mögliche Figurenzüge hinzufügen
+/** Nachfolgezustände für die einzelnen Spielfiguren */
 
+typedef void zuege_der_figur(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende);
+
+/** findet alle Nachfolgezustaende des Spielbretts vom Laeufer auf x/y des Spielers player ausgehend */
+zuege_der_figur laeuferzuege;
+zuege_der_figur turmzuege;
+// TODO: hier Funktionen für weitere mögliche Figurenzüge hinzufügen
+
+
+bool schach_matt(BRETT* schachbrett, int player);
+
+/** was MiniMax braucht: Nachfolgezustände und Bewertungsfunktion für Zustände */
 LIST* schach_nachfolgezustaende(BRETT* schachbrett, int player);
+
+int schach_zustandsbewertung(BRETT* schachbrett, int player);
+
+/** ein paar Spielzustände zur Initialisierung und zum Testen */
 
 static BRETT triviales_brett = {
         {0, 0, 0, 0, 0, 0, 0, 0},
@@ -64,6 +73,15 @@ static BRETT initiales_brett = {
         {-4, -2, -3, -5, -6, -3, -2, -4}
 };
 
-
+static BRETT end_game_1 = {
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, KOENIG, 0, 0, 0},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+        {-4, -2, -3, -5, -6, -3, -2, -4},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+};
 
 #endif //_SCHACH_H
