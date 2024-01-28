@@ -10,6 +10,7 @@
 
 typedef PAYLOAD ZUSTAND;
 
+
 /** auf den unteren Ebenen liefert Minimax uns jeweils die Bewertung für den Zustand zurück,
  * auf der obersten Ebene hingegen einen zufällig ausgewählten unter denen die am besten bewertet sind.
  */
@@ -41,7 +42,6 @@ int rand_in_range(int n) {
     while((r = rand()) >= limit);
     return r % n;
 }
-
 
 ZUSTAND _minimax_oberste_ebene(ZUSTAND z, int tiefe, int player, nachfolgezustandsfunktion nzf, zustandsbewertungsfunktion zbf) {
     int beste_bewertung = -INT_MAX * player; // besonders schlecht initialisieren
