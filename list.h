@@ -1,8 +1,8 @@
 // defines the ADT list
-#include <stdbool.h>
-
 #ifndef _LIST_H
 #define _LIST_H
+
+#include <stdbool.h>
 
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))

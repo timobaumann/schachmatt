@@ -6,27 +6,16 @@
 #include <stdbool.h>
 #include "list.h"
 #include <string.h>
-#include <limits.h>
-
-
+#include <assert.h>
+#include <stdio.h>
+/*
 void Bauerzug(BRETT , int , int , int , LIST* );
 void Springerzug(BRETT , int , int , int , LIST* );
-void Lauferzug(BRETT , int , int , int , LIST* );
+void Laeuferzug(BRETT , int , int , int , LIST* );
 void Turmzug(BRETT , int , int , int , LIST* );
 void Damezug(BRETT , int , int , int , LIST* );
 void Konigzug(BRETT , int , int , int , LIST* );
-
-BRETT initiale_position = {
-        {4, 2, 3, 5, 6, 3, 2, 4},
-        {1, 1, 1, 1, 1, 1, 1, 1},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {-1, -1, -1, -1, -1, -1, -1, -1},
-        {-4, -2, -3, -5, -6, -3, -2, -4}
-};
-
+*/
 bool checkoutofbounds(int x, int y) {
     return x >= GROESSE || y >= GROESSE || x < 0 || y < 0;
 }
@@ -38,16 +27,13 @@ BRETT* brett_cpy(BRETT in) {
 }
 
 void initialisieren(BRETT schachbrett) {
-    for (int y=0; y < GROESSE; y++) {// i= spalten=y
-        for (int x = 0; x < GROESSE; x++) { //k=zeilen=x
-            schachbrett[y][x] = initiale_position[y][x];
-        }
-    }
+    memcpy(schachbrett, initiales_brett, sizeof(BRETT));
 }
 
 typedef void zuege_der_figur(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
 zuege_der_figur* figuren_regeln[6] = {
-        &Bauerzug, &Lauferzug, &Springerzug, &Turmzug, &Damezug, &Konigzug
+        /*Bauerzug,*/
+        &Laeuferzug, /*&Springerzug, &Turmzug, &Damezug, &Konigzug*/
 };
 
 LIST* schach_nachfolgezustaende(int (*schachbrett)[GROESSE], int player) {
@@ -63,7 +49,7 @@ LIST* schach_nachfolgezustaende(int (*schachbrett)[GROESSE], int player) {
     return folgezustaende;
 }
 
-
+/*
 int positionsbewertung(LIST* aktuell_nachfolgezustand, int player){
 
 
@@ -95,7 +81,7 @@ LIST* minimax(BRETT schachbrett, int tiefe, int player) {
     return bester_nachfolgezustand;
 }
 
-
+*/
 
 void Zuege(BRETT schachbrett, int x, int y, int dx, int dy, int player, LIST* folgezustaende) {
     int MAX_STEPS = GROESSE - 1;
@@ -114,7 +100,8 @@ void Zuege(BRETT schachbrett, int x, int y, int dx, int dy, int player, LIST* fo
 
 }
 
-void Lauferzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) {
+void Laeuferzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) {
+    assert(player == WHITE || player == BLACK);
     Zuege(schachbrett, x, y, 1, 1, player, folgezustaende);  // (x+i, y+i)
     Zuege(schachbrett, x, y, 1, -1, player, folgezustaende); // (x+i, y-i)
     Zuege(schachbrett, x, y, -1, 1, player, folgezustaende); // (x-i, y+i)
@@ -129,7 +116,7 @@ void Turmzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) 
 }
 
 void Damezug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende) {
-    Lauferzug(schachbrett,  x,  y, player, folgezustaende);
+    Laeuferzug(schachbrett,  x,  y, player, folgezustaende);
     Turmzug( schachbrett,  x,  y, player, folgezustaende);
 }
 
@@ -191,3 +178,29 @@ void Bauerzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende)
 
     Konigzuege(schachbrett, x, y, 0, 1, player, folgezustaende);
 }
+
+void print_brett(void* schachbrett_pointer) {
+    BRETT* schachbrett = (BRETT*) schachbrett_pointer;
+    int zahl = GROESSE - 1;
+    for (int x=0; x < GROESSE; x++){
+        printf(" %c ", 'A' + x);
+    }
+    printf("\n");
+
+    for (int x=0; x < GROESSE + 1; x++){
+        printf("__");
+    }
+    printf("\n");
+
+    for (int y=0; y < GROESSE; y++) {// i= spalten=y
+        printf("%d|", y);
+        for (int x = 0; x < GROESSE; x++) { //k=zeilen=x
+            if((*schachbrett)[y][x]>=0) {
+                printf(" ");
+            }
+            printf("%d", (*schachbrett)[y][x]);
+        }
+        printf("\n");
+    }
+}
+
