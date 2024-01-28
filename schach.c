@@ -78,15 +78,21 @@ bool schach_matt(BRETT* schachbrett, int player) {
 }
 
 int schach_zustandsbewertung(BRETT* schachbrett, int player) {
-    int bewertung = 0;
+    int bewertung;
     if (DEBUG) {
         printf("zbf:\n");
         print_brett(schachbrett);
     }
     if (schach_matt(schachbrett, player))
-        bewertung = player * ((-INT_MAX) + 2); // INT_MIN wäre gefährlich, INT_MAX benutzt minimax intern
-    // TODO/FIXME: im Moment ist alles was nicht matt ist gleich gut...
-    printf("bewertung ist %d.\n", bewertung);
+        bewertung = -player * (INT_MAX - 3); // INT_MIN wäre gefährlich, INT_MAX benutzt minimax intern
+    else if (schach_matt(schachbrett, -player))
+        bewertung = player * (INT_MAX - 3);
+    else {
+        // TODO/FIXME: im Moment ist alles was nicht matt ist gleich gut...
+        bewertung = 0;
+    }
+    if (DEBUG)
+        printf("bewertung ist %d.\n", bewertung);
     return bewertung;
 }
 
