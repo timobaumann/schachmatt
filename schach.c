@@ -181,17 +181,15 @@ void Bauerzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende)
 
 void print_brett(void* schachbrett_pointer) {
     BRETT* schachbrett = (BRETT*) schachbrett_pointer;
-    int zahl = GROESSE - 1;
+    printf("\n  ");
     for (int x=0; x < GROESSE; x++){
-        printf(" %c ", 'A' + x);
+        printf(" %c", 'A' + x);
     }
     printf("\n");
-
     for (int x=0; x < GROESSE + 1; x++){
         printf("__");
     }
     printf("\n");
-
     for (int y=0; y < GROESSE; y++) {// i= spalten=y
         printf("%d|", y);
         for (int x = 0; x < GROESSE; x++) { //k=zeilen=x
