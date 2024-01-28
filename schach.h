@@ -24,10 +24,11 @@
 typedef int BRETT[GROESSE][GROESSE];
 
 void initialisieren(BRETT);
-BRETT* brett_cpy(BRETT in);
+BRETT* brett_cpy(BRETT* in);
+int brett_cmp(void* a, void* b);
+bool brett_eql(void* a, void* b);
 
 void print_brett(void* schachbrett_pointer);
-
 
 /*int BauerW (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int BauerS (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
@@ -36,7 +37,10 @@ int Turm (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int Springer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
  */
 /** findet alle Nachfolgezustaende des Spielbretts vom Laeufer auf x/y des Spielers player ausgehend */
-void laeuferzuege(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
+void laeuferzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende);
+// TODO: hier weitere mögliche Figurenzüge hinzufügen
+
+LIST* schach_nachfolgezustaende(BRETT* schachbrett, int player);
 
 static BRETT triviales_brett = {
         {0, 0, 0, 0, 0, 0, 0, 0},

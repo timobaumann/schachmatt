@@ -64,9 +64,17 @@ LIST* list_insert_at(LIST* l, unsigned int index, PAYLOAD p) {
     return l;
 }
 
+bool list_payload_identity(PAYLOAD a, PAYLOAD b) {
+    return a == b;
+}
+
 bool list_contains(LIST* l, PAYLOAD p) {
+    return list_contains_eql(l, p, &list_payload_identity);
+}
+
+bool list_contains_eql(LIST* l, PAYLOAD p, bool (*cmp) (PAYLOAD, PAYLOAD)) {
     for (int i = 0; i < l->filled_size; i++) {
-        if (l->backing_array[i] == p)
+        if (cmp(l->backing_array[i], p) == 0)
             return true;
     }
     return false;

@@ -30,6 +30,9 @@ LIST* list_insert_at(LIST* l, unsigned int i, PAYLOAD p);
 /** return true if PAYLOAD p is contained (somewhere) in the list l */
 bool list_contains(LIST* l, PAYLOAD p);
 
+/** return true if there's an element in l that is equal to p given a comparison function */
+bool list_contains_eql(LIST* l, PAYLOAD p, bool (*cmp) (PAYLOAD, PAYLOAD));
+
 /** return the index of PAYLOAD p in list l */
 int list_indexOf(LIST* l, PAYLOAD p);
 
