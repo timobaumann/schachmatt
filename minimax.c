@@ -8,6 +8,8 @@
 #include <limits.h> // INT_MAX
 #include <stdlib.h>
 
+typedef PAYLOAD ZUSTAND;
+
 /** auf den unteren Ebenen liefert Minimax uns jeweils die Bewertung für den Zustand zurück,
  * auf der obersten Ebene hingegen einen zufällig ausgewählten unter denen die am besten bewertet sind.
  */
