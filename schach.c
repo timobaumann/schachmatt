@@ -78,10 +78,16 @@ bool schach_matt(BRETT* schachbrett, int player) {
 }
 
 int schach_zustandsbewertung(BRETT* schachbrett, int player) {
+    int bewertung = 0;
+    if (DEBUG) {
+        printf("zbf:\n");
+        print_brett(schachbrett);
+    }
     if (schach_matt(schachbrett, player))
-        return player * -INT_MAX; // INT_MIN wäre gefährlich
+        bewertung = player * ((-INT_MAX) + 2); // INT_MIN wäre gefährlich, INT_MAX benutzt minimax intern
     // TODO/FIXME: im Moment ist alles was nicht matt ist gleich gut...
-    return 0;
+    printf("bewertung ist %d.\n", bewertung);
+    return bewertung;
 }
 
 void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, LIST* folgezustaende) {
@@ -129,19 +135,12 @@ void damenzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaen
 }
 
 void Konigzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, LIST* folgezustaende) {
-    int MAX_STEPS = GROESSE -1 ;
-    int directions[4][2] = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
-    int i = 1;
-    bool geschlagen = false;
-    if (!geschlagen &&
-        !checkoutofbounds(x+ dx*i, y + dy*i) &&
-        ((*schachbrett)[y-i][x-i] * player) <= 0)
+    if (!checkoutofbounds(x + dx, y + dy) &&
+        ((*schachbrett)[y + dx][x - dx] * player) <= 0)
     {
         BRETT *copy = brett_cpy(schachbrett);
-        if ((*schachbrett)[y + dx*i][x + dy*i] * -player > 0)
-            geschlagen = true;
         (*copy)[y][x] = 0;
-        (*copy)[y + dx*i][x + dy*i] = LAEUFER * player;
+        (*copy)[y + dx][x + dy] = LAEUFER * player;
         list_append(folgezustaende, copy);
     }
 }

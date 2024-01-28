@@ -4,6 +4,8 @@
 #ifndef _SCHACH_H
 #define _SCHACH_H
 
+#define DEBUG 1
+
 #include "list.h"
 
 /** Zuordnung von Zahlwerten zu den beiden Spielern: */
@@ -66,15 +68,15 @@ static BRETT triviales_brett = {
         {0, 0, 0, 0, 0, 0, 0, 0},
 };
 
-static BRETT initiales_brett = {
-        {4, 2, 3, 5, 6, 3, 2, 4},
-        {1, 1, 1, 1, 1, 1, 1, 1},
+static BRETT einfaches_brett = {
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, -KOENIG, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, LAEUFER, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
-        {-1, -1, -1, -1, -1, -1, -1, -1},
-        {-4, -2, -3, -5, -6, -3, -2, -4}
 };
 
 static BRETT end_game_1 = {
@@ -86,6 +88,17 @@ static BRETT end_game_1 = {
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
+};
+
+static BRETT initiales_brett = {
+        {4, 2, 3, 5, 6, 3, 2, 4},
+        {1, 1, 1, 1, 1, 1, 1, 1},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+        {-4, -2, -3, -5, -6, -3, -2, -4}
 };
 
 #endif //_SCHACH_H
