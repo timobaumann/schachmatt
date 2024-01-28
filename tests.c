@@ -6,7 +6,7 @@
 #include "list.h"
 
 int main() {
-    BRETT* test = *triviales_brett;
+    BRETT* test = brett_cpy(triviales_brett);
     LIST* nachfolgezuege = list_new();
-    Laeuferzuege(....)
+    Laeuferzug(test, 0, 0, 1, );
 }

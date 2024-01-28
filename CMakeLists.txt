@@ -9,3 +9,6 @@ add_executable(klosterhuber
         main.c
         schach.c
         minimax.h)
+
+add_executable(test
+        tests.c schach.h schach.c list.h arraylist.c)

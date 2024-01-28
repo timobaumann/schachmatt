@@ -2,6 +2,7 @@
 // Created by Anja Klosterhuber on 22.01.24.
 //
 #include <stdbool.h>
+#include "list.h"
 
 #ifndef AGKIPROJEKTSCHACH_SCHACH_H
 #define AGKIPROJEKTSCHACH_SCHACH_H
@@ -20,12 +21,13 @@ typedef int BRETT[GROESSE][GROESSE];
 #define DAME 5
 
 void initialisieren(BRETT);
+BRETT* brett_cpy(BRETT in);
 int BauerW (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int BauerS (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int Laufer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int Turm (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
 int Springer (BRETT, int n1, int n2, int x1, int x2, int y1, int y2);
-void Laeuferzuege(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
+void Laeuferzug(BRETT schachbrett, int x, int y, int player, LIST* folgezustaende);
 BRETT triviales_brett = {
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
