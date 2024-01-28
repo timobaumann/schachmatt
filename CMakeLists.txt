@@ -13,7 +13,7 @@ include_directories(.)
 add_executable(minimax_demo
         minimax_demo.c
         schach.h schach.c list.h arraylist.c
-#        minimax.h minimax.c
+        minimax.h minimax.c
 )
 
 add_executable(test

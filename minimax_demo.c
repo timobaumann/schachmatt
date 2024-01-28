@@ -3,20 +3,33 @@
 //
 #include <stdbool.h>
 #include <stdio.h>
-//#include "list.h"
+#include "minimax.h"
 #include "schach.h"
-//#include "minimax.h"
+
+
+LIST* unsere_nachfolgezustandsfunktion(ZUSTAND z, int player) {
+    BRETT* b = (BRETT*) z;
+    return schach_nachfolgezustaende(b, player);
+}
+
+int unsere_zustandsbewertungsfunktion(ZUSTAND z, int player) {
+    BRETT* b = (BRETT*) z;
+    return schach_zustandsbewertung(b, player);
+}
 
 int main() {
-    BRETT* brett = brett_cpy(*triviales_brett);
+    int TIEFE = 3;
+    BRETT* brett = brett_cpy(&triviales_brett);
     printf("Spielanfang:\n");
     print_brett(brett);
     int player = WHITE;
     bool matt = schach_matt(brett, player);
     while (!matt) {
         printf("%s ist am Zug.\n", (player == WHITE ? "Weiß" : "Schwarz"));
+        brett = (BRETT*) minimax((ZUSTAND) brett, TIEFE, player, &unsere_nachfolgezustandsfunktion, &unsere_zustandsbewertungsfunktion);
         print_brett(brett);
         matt = schach_matt(brett, player);
+        player = schach_next_player(player);
     }
     printf("schach matt. %s hat gewonnen.\n", (player == WHITE ? "Weiß" : "Schwarz"));
 }

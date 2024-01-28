@@ -41,11 +41,17 @@ bool checkoutofbounds(int x, int y) {
     return x >= GROESSE || y >= GROESSE || x < 0 || y < 0;
 }
 
+int schach_next_player(int player) {
+    return -1 * player;
+}
+
 
 zuege_der_figur* figuren_regeln[6] = {
-        /*Bauerzug,*/
+        /*&Bauerzug,*/
         [2] = &laeuferzuege, /*&Springerzug, */
-        [4] = &turmzuege, /* &Damezug, &Konigzug*/
+        [4] = &turmzuege,
+        [5] = &damenzuege, /* &Konigzug*/
+        // TODO/FIXME: hier müssen noch die anderen hinzugefügt werden, wenn sie laufen
 };
 
 LIST* schach_nachfolgezustaende(BRETT* schachbrett, int player) {
@@ -78,7 +84,7 @@ int schach_zustandsbewertung(BRETT* schachbrett, int player) {
     return 0;
 }
 
-void Zuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, LIST* folgezustaende) {
+void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, LIST* folgezustaende) {
     assert(player == WHITE || player == BLACK);
     int MAX_STEPS = GROESSE - 1;
     int directions[4][2] = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
@@ -102,21 +108,21 @@ void Zuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, LIST* f
 
 void laeuferzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
     assert((*schachbrett)[y][x] == LAEUFER * player && "Kein Laeufer auf der angegebenen Position.");
-    Zuege(schachbrett, x, y, 1, 1, player, folgezustaende);  // (x+i, y+i)
-    Zuege(schachbrett, x, y, 1, -1, player, folgezustaende); // (x+i, y-i)
-    Zuege(schachbrett, x, y, -1, 1, player, folgezustaende); // (x-i, y+i)
-    Zuege(schachbrett, x, y, -1, -1, player, folgezustaende); // (x-i, y-i)
+    strahlzuege(schachbrett, x, y, 1, 1, player, folgezustaende);  // (x+i, y+i)
+    strahlzuege(schachbrett, x, y, 1, -1, player, folgezustaende); // (x+i, y-i)
+    strahlzuege(schachbrett, x, y, -1, 1, player, folgezustaende); // (x-i, y+i)
+    strahlzuege(schachbrett, x, y, -1, -1, player, folgezustaende); // (x-i, y-i)
 }
 
 void turmzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
     assert((*schachbrett)[y][x] == TURM * player && "Kein Turm auf der angegebenen Position.");
-    Zuege(schachbrett, x, y, 1, 0, player, folgezustaende);
-    Zuege(schachbrett, x, y, -1, 0, player, folgezustaende);
-    Zuege(schachbrett, x, y, 0, 1, player, folgezustaende);
-    Zuege(schachbrett, x, y, 0, -1, player, folgezustaende);
+    strahlzuege(schachbrett, x, y, 1, 0, player, folgezustaende);
+    strahlzuege(schachbrett, x, y, -1, 0, player, folgezustaende);
+    strahlzuege(schachbrett, x, y, 0, 1, player, folgezustaende);
+    strahlzuege(schachbrett, x, y, 0, -1, player, folgezustaende);
 }
 
-void damezuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
+void damenzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
     assert((*schachbrett)[y][x] == DAME * player && "Keine Dame auf der angegebenen Position.");
     laeuferzuege(schachbrett,  x,  y, player, folgezustaende);
     turmzuege( schachbrett,  x,  y, player, folgezustaende);

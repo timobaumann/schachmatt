@@ -32,6 +32,9 @@ bool brett_eql(void* a, void* b);
 
 void print_brett(void* schachbrett_pointer);
 
+
+int schach_next_player(int player);
+
 /** Nachfolgezustände für die einzelnen Spielfiguren */
 
 typedef void zuege_der_figur(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende);
@@ -39,6 +42,7 @@ typedef void zuege_der_figur(BRETT* schachbrett, int x, int y, int player, LIST*
 /** findet alle Nachfolgezustaende des Spielbretts vom Laeufer auf x/y des Spielers player ausgehend */
 zuege_der_figur laeuferzuege;
 zuege_der_figur turmzuege;
+zuege_der_figur damenzuege;
 // TODO: hier Funktionen für weitere mögliche Figurenzüge hinzufügen
 
 

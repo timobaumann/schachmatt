@@ -20,12 +20,11 @@ int pruffigur(int x, int y, int (*schachbrett)[8]) {
     return 0;
 }
 
-void ausgeben(int (*schachbrett)[8], int grosse) {
-    int zahl = grosse-1;
-    printf("  ");
-    for (int x=0; x < grosse; x++){
-
-
+void ausgeben(int (*schachbrett)[8]) {
+    int zahl = GROESSE - 1;
+    for (int x=0; x < GROESSE; x++){
+        printf(" %c " , 'A' + x);
+/*
         switch(x){
             case 0: printf(" A ");break;
             case 1: printf("B ");break;
@@ -38,17 +37,18 @@ void ausgeben(int (*schachbrett)[8], int grosse) {
 
             default:printf("Das sollte nie zu sehen sein!");break;
         }
+*/
     }
     printf("\n");
 
-    for (int x=0; x < grosse+1; x++){
+    for (int x=0; x < GROESSE + 1; x++){
         printf("__");
     }
     printf("\n");
 
-    for (int y=0; y < grosse; y++) {// i= spalten=y
+    for (int y=0; y < GROESSE; y++) {// i= spalten=y
         printf("%d|", y);
-        for (int x = 0; x < grosse; x++) { //k=zeilen=x
+        for (int x = 0; x < GROESSE; x++) { //k=zeilen=x
             if(schachbrett[y][x]>=0) {
                 printf(" ");
             }
@@ -965,7 +965,7 @@ int main() {
     int schachbrett[grosse][grosse];
     int schachnr = 1;
     initialisieren(schachbrett);
-    ausgeben(schachbrett, grosse);
+    ausgeben(schachbrett);
     //BewertungMinimax();
     int zahler = 0;// wenn gerade=weiß
 
@@ -982,7 +982,7 @@ int main() {
 
     }*/
 
-    ausgeben(schachbrett, grosse);
+    ausgeben(schachbrett);
 
 //minmax mit schachbrett aufrufen;
 
