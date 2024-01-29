@@ -1,7 +1,6 @@
 //
 // Created by Anja Klosterhuber on 22.01.24.
 //
-
 #include <stdlib.h>
 #include "schach.h"
 #include <stdbool.h>
@@ -57,12 +56,12 @@ int schach_next_player(int player) {
 
 
 zuege_der_figur* figuren_regeln[6] = {
-        [1] = &bauerzuege,
-        [2] = &laeuferzuege,
-        [3] = &springerzuege,
-        [4] = &turmzuege,
-        [5] = &damezuege,
-        [6] = &koenigzuege
+        [0] = &bauerzuege, 
+        [1] = &laeuferzuege,
+        [2] = &springerzuege,
+        [3] = &turmzuege,
+        [4] = &damezuege,
+        [5] = &koenigzuege
 };
 
 LIST* schach_nachfolgezustaende(BRETT* schachbrett, int player) {
@@ -115,8 +114,8 @@ void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, L
     bool geschlagen = false;
     while (i < MAX_STEPS &&
            !geschlagen &&
-           !checkoutofbounds(x+ dx*i, y + dy*i) &&
-           ((*schachbrett)[y-i][x-i] * player) <= 0)
+           !checkoutofbounds(y + dy*i, x + dx*i) &&
+           ((*schachbrett)[y + dy*i][x + dx*i] * player) <= 0)
     {
         BRETT *copy = brett_cpy(schachbrett);
         if ((*schachbrett)[y + dx*i][x + dy*i] * -player > 0)
@@ -126,7 +125,6 @@ void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, L
         list_append(folgezustaende, copy);
         i++;
     }
-
 }
 
 void laeuferzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
