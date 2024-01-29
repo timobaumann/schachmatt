@@ -96,8 +96,16 @@ int schach_zustandsbewertung(BRETT* schachbrett, int player) {
     }
     if (DEBUG)
         printf("bewertung ist %d.\n", bewertung);
+
+
+
+
+
     return bewertung;
 }
+
+
+
 
 void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, int figur, LIST* folgezustaende) {
     assert(player == WHITE || player == BLACK);

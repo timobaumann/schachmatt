@@ -18,8 +18,8 @@ int unsere_zustandsbewertungsfunktion(ZUSTAND z, int player) {
 }
 
 int main() {
-    int TIEFE = 0;
-    BRETT* brett = brett_cpy(&einfaches_brett);
+    int TIEFE = 1;
+    BRETT* brett = brett_cpy(&end_game_1);
     printf("Spielanfang:\n");
     print_brett(brett);
     int player = WHITE;

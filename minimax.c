@@ -16,19 +16,18 @@ typedef PAYLOAD ZUSTAND;
  */
 int _minimax_untere_ebenen(ZUSTAND z, int tiefe, int player, nachfolgezustandsfunktion nzf, zustandsbewertungsfunktion zbf) {
     int beste_bewertung = -INT_MAX * player; // besonders schlecht initialisieren
-
     LIST* nachfolgezustaende = nzf(z, player);
     for (int i = 0; i < list_size(nachfolgezustaende); i++) {
-        ZUSTAND aktueller_nachfolgezustand = list_get(nachfolgezustaende, i);
         int bewertung = 0;
-        if (tiefe > 0) {
-            bewertung = _minimax_untere_ebenen(aktueller_nachfolgezustand, tiefe - 1, -player, nzf, zbf);
-        } else {
-            bewertung = zbf(aktueller_nachfolgezustand, player);
-        }
-        if (bewertung * player > beste_bewertung) {
-            beste_bewertung = bewertung;
-        }
+            ZUSTAND aktueller_nachfolgezustand = list_get(nachfolgezustaende, i);
+           if (tiefe > 0) {
+               bewertung = _minimax_untere_ebenen(aktueller_nachfolgezustand, tiefe - 1, -player, nzf, zbf);
+           } else {
+               bewertung = zbf(aktueller_nachfolgezustand, player);
+           }
+           if (bewertung * player > beste_bewertung) {
+               beste_bewertung = bewertung;
+           }
     }
     return beste_bewertung;
 }
