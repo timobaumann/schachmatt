@@ -219,10 +219,10 @@ void print_brett(void* schachbrett_pointer) {
     for (int y=0; y < GROESSE; y++) {// i= spalten=y
         printf("%d|", y);
         for (int x = 0; x < GROESSE; x++) { //k=zeilen=x
-            if((*schachbrett)[y][x]>=0) {
+            if((*schachbrett)[x][y]>=0) {
                 printf(" ");
             }
-            printf("%d", (*schachbrett)[y][x]);
+            printf("%d", (*schachbrett)[x][y]);
         }
         printf("\n");
     }
