@@ -27,7 +27,7 @@ int brett_cmp(void* a, void* b) {
     BRETT* brett_b = (BRETT*) b;
     for (int x = 0; x < GROESSE; x++) {
         for (int y = 0; y < GROESSE; y++) {
-            int diff = (*brett_a)[y][x] - (*brett_b)[y][x];
+            int diff = (*brett_a)[x][y] - (*brett_b)[x][y];
             if (diff != 0)
                 return diff;
         }
@@ -73,7 +73,7 @@ LIST* schach_nachfolgezustaende(BRETT* schachbrett, int player) {
 bool schach_matt(BRETT* schachbrett, int player) {
     for (int x = 0; x < GROESSE; x++) {
         for (int y = 0; y < GROESSE; y++) {
-            if ((*schachbrett)[y][x] == player * KOENIG)
+            if ((*schachbrett)[x][y] == player * KOENIG)
                 return false; // wir haben den König noch!
         }
     }
