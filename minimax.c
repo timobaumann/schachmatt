@@ -15,7 +15,6 @@ typedef PAYLOAD ZUSTAND;
  * auf der obersten Ebene hingegen einen zufällig ausgewählten unter denen die am besten bewertet sind.
  */
 int _minimax_untere_ebenen(ZUSTAND z, int tiefe, int player, nachfolgezustandsfunktion nzf, zustandsbewertungsfunktion zbf) {
-    assert((player == 1 || player == -1) && "Player must be +/- 1");
     int beste_bewertung = -INT_MAX * player; // besonders schlecht initialisieren
 
     LIST* nachfolgezustaende = nzf(z, player);
@@ -56,9 +55,12 @@ ZUSTAND _minimax_oberste_ebene(ZUSTAND z, int tiefe, int player, nachfolgezustan
         } else {
             bewertung = zbf(aktueller_nachfolgezustand, -player);
         }
-        if (bewertung * player > beste_bewertung) {
-            beste_nachfolgezustaende = list_new();
-            beste_bewertung = bewertung;
+        if (bewertung * player >= beste_bewertung) {
+            if (bewertung * player > beste_bewertung) {
+                list_free(beste_nachfolgezustaende);
+                beste_nachfolgezustaende = list_new();
+                beste_bewertung = bewertung;
+            }
             list_append(beste_nachfolgezustaende, aktueller_nachfolgezustand);
         }
     }
@@ -70,5 +72,6 @@ ZUSTAND _minimax_oberste_ebene(ZUSTAND z, int tiefe, int player, nachfolgezustan
 }
 
 ZUSTAND minimax(ZUSTAND z, int tiefe, int player, nachfolgezustandsfunktion nzf, zustandsbewertungsfunktion zbf) {
+    assert((player == 1 || player == -1) && "Player must be +/- 1");
     _minimax_oberste_ebene(z, tiefe, player, nzf, zbf);
 }
