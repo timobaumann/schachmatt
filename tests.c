@@ -44,7 +44,18 @@ void test_schach_nachfolgezustaende() {
     }
     printf("test_schach_nachfolgezustaende: doesn't add more errors :-)\n");
 }
-
+void test_schachmatt(){
+    BRETT* test = brett_cpy(&schachmatt);
+    LIST* nachfolgezustaende = schach_nachfolgezustaende(test, BLACK);
+    LIST* laeufernachfolgezuege = list_new();
+    damenzuege(test, 0,2, BLACK, laeufernachfolgezuege);
+    assert(list_size(nachfolgezustaende) == list_size(laeufernachfolgezuege));
+    for (int i = 0; i < list_size(nachfolgezustaende); i++) {
+        BRETT* b = (BRETT*) list_get(nachfolgezustaende, i);
+        list_contains_eql(laeufernachfolgezuege, (void*) b, &brett_eql);
+    }
+    printf("test_schachmatt: alles passt\n");
+}
 int main() {
     test_equals();
     test_print_brett();
