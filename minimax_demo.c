@@ -17,6 +17,7 @@ int unsere_zustandsbewertungsfunktion(ZUSTAND z, int player) {
     return schach_zustandsbewertung(b, player);
 }
 
+
 int main() {
     int TIEFE = 1;
     BRETT* brett = brett_cpy(&end_game_1);

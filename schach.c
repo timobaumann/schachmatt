@@ -57,6 +57,7 @@ zuege_der_figur* figuren_regeln[7] = {
         [6] = &koenigszuege
 };
 
+
 LIST* schach_nachfolgezustaende(BRETT* schachbrett, int player) {
     LIST* folgezustaende = list_new();
     for (int y= 0; y < GROESSE; y++) {
@@ -80,6 +81,7 @@ bool schach_matt(BRETT* schachbrett, int player) {
     return true; // keinen eigenen König gefunden → Schach matt!
 }
 
+
 int schach_zustandsbewertung(BRETT* schachbrett, int player) {
     int bewertung;
     if (DEBUG) {
@@ -97,14 +99,8 @@ int schach_zustandsbewertung(BRETT* schachbrett, int player) {
     if (DEBUG)
         printf("bewertung ist %d.\n", bewertung);
 
-
-
-
-
     return bewertung;
 }
-
-
 
 
 void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, int figur, LIST* folgezustaende) {
