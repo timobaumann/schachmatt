@@ -48,8 +48,8 @@ zuege_der_figur springerzuege;
 zuege_der_figur turmzuege;
 zuege_der_figur damenzuege;
 zuege_der_figur koenigszuege;
-// TODO: hier Funktionen für weitere mögliche Figurenzüge hinzufügen
 
+void strahlzuege(BRETT (*schachbrett), int x, int y, int dx, int dy, int player, int figur, LIST *folgezustaende);
 
 bool schach_matt(BRETT* schachbrett, int player);
 
