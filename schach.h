@@ -41,10 +41,13 @@ int schach_next_player(int player);
 
 typedef void zuege_der_figur(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende);
 
-/** findet alle Nachfolgezustaende des Spielbretts vom Laeufer auf x/y des Spielers player ausgehend */
+/** findet alle Nachfolgezustaende des Spielbretts von der jeweiligen Figur (Bauer, Laeufer, ...) auf x/y des Spielers player ausgehend */
+zuege_der_figur bauernzuege;
 zuege_der_figur laeuferzuege;
+zuege_der_figur springerzuege;
 zuege_der_figur turmzuege;
 zuege_der_figur damenzuege;
+zuege_der_figur koenigszuege;
 // TODO: hier Funktionen für weitere mögliche Figurenzüge hinzufügen
 
 

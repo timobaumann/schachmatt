@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include "minimax.h"
 #include "schach.h"
-#include "minimax.c"
-#include "schach.c"
 
 
 LIST* unsere_nachfolgezustandsfunktion(ZUSTAND z, int player) {
