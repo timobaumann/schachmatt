@@ -44,6 +44,7 @@ void test_schach_nachfolgezustaende() {
     }
     printf("test_schach_nachfolgezustaende: doesn't add more errors :-)\n");
 }
+
 void test_schachmatt(){
     BRETT* test = brett_cpy(&schachmatt);
     LIST* nachfolgezustaende = schach_nachfolgezustaende(test, BLACK);
@@ -56,10 +57,12 @@ void test_schachmatt(){
     }
     printf("test_schachmatt: alles passt\n");
 }
+
 int main() {
     test_equals();
     test_print_brett();
     test_laeuferzuege();
     test_schach_nachfolgezustaende();
+    test_schachmatt();
     return 0;
 }
