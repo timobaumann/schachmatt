@@ -99,12 +99,14 @@ int schach_zustandsbewertung(BRETT* schachbrett, int player) {
     return bewertung;
 }
 
-void strahlzuege(BRETT (*schachbrett), int x, int y, int dx, int dy, int player, int figur, LIST *folgezustaende) {
+void strahlzuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, int figur, LIST* folgezustaende) {
     assert(player == WHITE || player == BLACK);
-    assert((*schachbrett)[x][y] == player * figur);
+    int MAX_STEPS = GROESSE - 1;
+    int directions[4][2] = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
     int i = 1;
     bool geschlagen = false;
-    while (!geschlagen &&
+    while (i < MAX_STEPS &&
+           !geschlagen &&
            !checkoutofbounds(x + dx*i, y + dy*i) &&
            ((*schachbrett)[x + dx*i][y + dy*i] * player) <= 0)
     {
@@ -121,9 +123,9 @@ void strahlzuege(BRETT (*schachbrett), int x, int y, int dx, int dy, int player,
 void laeuferzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
     assert((*schachbrett)[x][y] == LAEUFER * player && "Kein Laeufer auf der angegebenen Position.");
     strahlzuege(schachbrett, x, y, 1, 1, player, LAEUFER, folgezustaende);  // (x+i, y+i)
-    strahlzuege(schachbrett, x, y, 1, -1, player, LAEUFER, folgezustaende); // (x+i, y-i)
-    strahlzuege(schachbrett, x, y, -1, 1, player, LAEUFER, folgezustaende); // (x-i, y+i)
-    strahlzuege(schachbrett, x, y, -1, -1, player, LAEUFER, folgezustaende); // (x-i, y-i)
+    strahlzuege(schachbrett, x, y, 1, -1, player, LAEUFER, folgezustaende);  // (x+i, y-i)
+    strahlzuege(schachbrett, x, y, -1, 1, player, LAEUFER, folgezustaende);  // (x-i, y+i)
+    strahlzuege(schachbrett, x, y, -1, -1, player, LAEUFER, folgezustaende);  // (x-i, y-i)
 }
 
 void turmzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
@@ -148,7 +150,7 @@ void damenzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaen
 
 }
 
-void feste_zuege(BRETT (*schachbrett), int x, int y, int dx, int dy, int player, int figur, LIST *folgezustaende) {
+void feste_zuege(BRETT* schachbrett, int x, int y, int dx, int dy, int player, LIST* folgezustaende, int figur) {
     if (!checkoutofbounds(x + dx, y + dy) &&
         ((*schachbrett)[x + dx][y - dy] * player) <= 0)
     {
@@ -161,46 +163,46 @@ void feste_zuege(BRETT (*schachbrett), int x, int y, int dx, int dy, int player,
 
 void koenigszuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
     //Läufer
-    feste_zuege(schachbrett, x, y, 1, 1, player, KOENIG, folgezustaende);
-    feste_zuege(schachbrett, x, y, 1, -1, player, KOENIG, folgezustaende);
-    feste_zuege(schachbrett, x, y, -1, 1, player, KOENIG, folgezustaende);
-    feste_zuege(schachbrett, x, y, -1, -1, player, KOENIG, folgezustaende);
+    feste_zuege(schachbrett, x, y, 1, 1, player, folgezustaende, KOENIG);
+    feste_zuege(schachbrett, x, y, 1, -1, player, folgezustaende, KOENIG);
+    feste_zuege(schachbrett, x, y, -1, 1, player, folgezustaende, KOENIG);
+    feste_zuege(schachbrett, x, y, -1, -1, player, folgezustaende, KOENIG);
     //Turm
-    feste_zuege(schachbrett, x, y, 1, 0, player, KOENIG, folgezustaende);
-    feste_zuege(schachbrett, x, y, -1, 0, player, KOENIG, folgezustaende);
-    feste_zuege(schachbrett, x, y, 0, 1, player, KOENIG, folgezustaende);
-    feste_zuege(schachbrett, x, y, 0, -1, player, KOENIG, folgezustaende);
+    feste_zuege(schachbrett, x, y, 1, 0, player, folgezustaende, KOENIG);
+    feste_zuege(schachbrett, x, y, -1, 0, player, folgezustaende, KOENIG);
+    feste_zuege(schachbrett, x, y, 0, 1, player, folgezustaende, KOENIG);
+    feste_zuege(schachbrett, x, y, 0, -1, player, folgezustaende, KOENIG);
 }
 
 void springerzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
-    feste_zuege(schachbrett, x, y, 1, 2, player, SPRINGER, folgezustaende);
-    feste_zuege(schachbrett, x, y, -1, 2, player, SPRINGER, folgezustaende);
-    feste_zuege(schachbrett, x, y, 1, -2, player, SPRINGER, folgezustaende);
-    feste_zuege(schachbrett, x, y, -1, -2, player, SPRINGER, folgezustaende);
+    feste_zuege(schachbrett, x, y, 1, 2, player, folgezustaende, SPRINGER);
+    feste_zuege(schachbrett, x, y, -1, 2, player, folgezustaende, SPRINGER);
+    feste_zuege(schachbrett, x, y, 1, -2, player, folgezustaende, SPRINGER);
+    feste_zuege(schachbrett, x, y, -1, -2, player, folgezustaende, SPRINGER);
 
-    feste_zuege(schachbrett, x, y, 2, 1, player, SPRINGER, folgezustaende);
-    feste_zuege(schachbrett, x, y, -2, 1, player, SPRINGER, folgezustaende);
-    feste_zuege(schachbrett, x, y, 2, -1, player, SPRINGER, folgezustaende);
-    feste_zuege(schachbrett, x, y, -2, -1, player, SPRINGER, folgezustaende);
+    feste_zuege(schachbrett, x, y, 2, 1, player, folgezustaende, SPRINGER);
+    feste_zuege(schachbrett, x, y, -2, 1, player, folgezustaende, SPRINGER);
+    feste_zuege(schachbrett, x, y, 2, -1, player, folgezustaende, SPRINGER);
+    feste_zuege(schachbrett, x, y, -2, -1, player, folgezustaende, SPRINGER);
 
 
 }
 
 void bauernzuege(BRETT* schachbrett, int x, int y, int player, LIST* folgezustaende) {
     if((player == 1 && y == 6) || (player == -1 && y == 2)) {
-        feste_zuege(schachbrett, x, y, 0, 2, player, BAUER, folgezustaende);
-        feste_zuege(schachbrett, x, y, 0, 1, player, BAUER, folgezustaende);
+        feste_zuege(schachbrett, x, y, 0, 2, player, folgezustaende, BAUER);
+        feste_zuege(schachbrett, x, y, 0, 1, player, folgezustaende,BAUER);
     }
     if((schachbrett[x-1][y-1] < 0 && player == 1) || (schachbrett[x+1][y-1] < 0 && player == 1)) {
-        feste_zuege(schachbrett, x, y, -1, -1, player, BAUER, folgezustaende);
-        feste_zuege(schachbrett, x, y, 1, -1, player, BAUER, folgezustaende);
+        feste_zuege(schachbrett, x, y, -1, -1, player, folgezustaende,BAUER);
+        feste_zuege(schachbrett, x, y, 1, -1, player, folgezustaende,BAUER);
     }
     else if((schachbrett[x-1][y+1] > 0 && player == -1)  || (schachbrett[x+1][y+1] > 0 && player == -1)) {
-        feste_zuege(schachbrett, x, y, -1, 1, player, BAUER, folgezustaende);
-        feste_zuege(schachbrett, x, y, 1, 1, player, BAUER, folgezustaende);
+        feste_zuege(schachbrett, x, y, -1, 1, player, folgezustaende,BAUER);
+        feste_zuege(schachbrett, x, y, 1, 1, player, folgezustaende,BAUER);
     }
 
-    feste_zuege(schachbrett, x, y, 0, 1, player, BAUER, folgezustaende);
+    feste_zuege(schachbrett, x, y, 0, 1, player, folgezustaende,BAUER);
 }
 
 void print_brett(void* schachbrett_pointer) {
@@ -217,7 +219,10 @@ void print_brett(void* schachbrett_pointer) {
     for (int y=0; y < GROESSE; y++) {// i= spalten=y
         printf("%d|", y);
         for (int x = 0; x < GROESSE; x++) { //k=zeilen=x
-            printf("%2d", (*schachbrett)[y][x]);
+            if((*schachbrett)[y][x]>=0) {
+                printf(" ");
+            }
+            printf("%d", (*schachbrett)[y][x]);
         }
         printf("\n");
     }
